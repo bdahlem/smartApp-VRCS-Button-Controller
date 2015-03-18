@@ -2,7 +2,7 @@
  *	Button Controller
  *
  *	Author: Brian Dahlem, based on SmartThings Button Controller
- *	Date: 2014-5-21
+ *	Date: 2015-3-17
  */
 definition(
     name: "VRCS Button Controller",
@@ -147,13 +147,13 @@ def buttonConfigured(idx) {
 def buttonEvent(evt){
 	log.debug "buttonEvent"
 	if(allOk) {
-		def buttonNumber = evt.data // why doesn't jsonData work? always returning [:]
+		def buttonNumber = evt.value // why doesn't jsonData work? always returning [:]
 		log.debug "buttonEvent: $evt.name - ($evt.data)"
 		log.debug "button: $buttonNumber"
 	
 		def recentEvents = buttonDevice.eventsSince(new Date(now() - 3000)).findAll{it.value == evt.value && it.data == evt.data}
 		log.debug "Found ${recentEvents.size()?:0} events in past 3 seconds"
-	
+        
 		if(recentEvents.size <= 1){
 			switch(buttonNumber) {
 				case ~/.*1.*/:
